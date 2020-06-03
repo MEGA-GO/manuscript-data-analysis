@@ -1,0 +1,10 @@
+name: snakemake
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - snakemake
+  - pip
+  - pip:
+    - https://github.com/MEGA-GO/Mega-GO/archive/feature/split-per-go-domain.zip
