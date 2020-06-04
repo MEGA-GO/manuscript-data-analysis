@@ -7,7 +7,7 @@ SAMPLES, = glob_wildcards("go-per-sample/go_terms_{sample}.csv")
 rule all:
     input:
         expand("similarity/{sample_comb}.csv",
-               sample_comb=[f"{c[0]}-vs-{c[1]}" for c in itertools.combinations(SAMPLES, 2)])
+               sample_comb=[f"{sorted(c)[0]}-vs-{sorted(c)[1]}" for c in itertools.combinations(SAMPLES, 2)])
     output:
         molecular_function="similarity_mf.csv",
         biological_process="similarity_bp.csv",
