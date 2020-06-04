@@ -21,7 +21,7 @@ rule aggregate_similaries:
         cellular_component="similarity_cc.csv"
     run:
         namespaces = ["molecular_function", "biological_process", "cellular_component"]
-        df_dict = {namespace: pd.DataFrame(index=SAMPLES, columns=SAMPLES) for namespace in namespaces}
+        df_dict = {namespace: pd.DataFrame(index=sorted(SAMPLES), columns=sorted(SAMPLES)) for namespace in namespaces}
         for f_in in input:
             filename_wo_ext = f_in.split("/")[-1].split(".")[0]
             s1, s2 = filename_wo_ext.split("-vs-")
