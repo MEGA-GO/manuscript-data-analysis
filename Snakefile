@@ -1,24 +1,47 @@
 import itertools
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 SAMPLES, = glob_wildcards("go-per-sample/go_terms_{sample}.csv")
 
 
 rule all:
     input:
-        molecular_function="similarity_mf.csv",
-        biological_process="similarity_bp.csv",
-        cellular_component="similarity_cc.csv"
+        molecular_function="figures/similarity_mf.svg",
+        biological_process="figures/similarity_bp.svg",
+        cellular_component="figures/similarity_cc.svg"
 
+rule visualization:
+    input:
+        molecular_function="aggregated_sim/similarity_mf.csv",
+        biological_process="aggregated_sim/similarity_bp.csv",
+        cellular_component="aggregated_sim/similarity_cc.csv"
+    output:
+        molecular_function="figures/similarity_mf.svg",
+        biological_process="figures/similarity_bp.svg",
+        cellular_component="figures/similarity_cc.svg"
+    run:
+        df_dict = {namespace: pd.read_csv(f, index_col=0) for namespace, f in input.items()}
+        index_sorted = sorted(df_dict["molecular_function"].index, key=lambda s: s[-2]+s[:3])
+        width = 6
+        for i, (namespace, df) in enumerate(df_dict.items()):
+            f, ax = plt.subplots(nrows=1, figsize=(width, width))
+            df_sorted = df.loc[index_sorted, index_sorted]
+            ax = sns.heatmap(df_sorted, xticklabels=True, yticklabels=True, ax=ax)
+            ax.set_title(namespace)
+            f.savefig(output[namespace])
 
 rule aggregate_similaries:
     input:
         expand("similarity/{sample_comb}.csv",
                sample_comb=[f"{sorted(c)[0]}-vs-{sorted(c)[1]}" for c in itertools.combinations(SAMPLES, 2)])
     output:
-        molecular_function="similarity_mf.csv",
-        biological_process="similarity_bp.csv",
-        cellular_component="similarity_cc.csv"
+        molecular_function="aggregated_sim/similarity_mf.csv",
+        biological_process="aggregated_sim/similarity_bp.csv",
+        cellular_component="aggregated_sim/similarity_cc.csv"
     run:
         namespaces = ["molecular_function", "biological_process", "cellular_component"]
         df_dict = {namespace: pd.DataFrame(index=sorted(SAMPLES), columns=sorted(SAMPLES)) for namespace in namespaces}

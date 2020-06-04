@@ -4,8 +4,10 @@ channels:
   - bioconda
   - defaults
 dependencies:
+  - matplotlib
   - pandas
   - pip
+  - seaborn
   - snakemake
   - pip:
     - https://github.com/MEGA-GO/Mega-GO/archive/feature/split-per-go-domain.zip
