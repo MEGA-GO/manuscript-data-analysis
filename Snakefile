@@ -9,7 +9,7 @@ rule all:
                sample_comb=[f"{c[0]}-vs-{c[1]}" for c in itertools.combinations(SAMPLES, 2)])
 
 
-rule bwa_map:
+rule calc_pairwise_sample_similarity:
     input:
         "go-per-sample/go_terms_{sample_a}.csv",
         "go-per-sample/go_terms_{sample_b}.csv"
