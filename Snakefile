@@ -6,6 +6,13 @@ SAMPLES, = glob_wildcards("go-per-sample/go_terms_{sample}.csv")
 
 rule all:
     input:
+        molecular_function="similarity_mf.csv",
+        biological_process="similarity_bp.csv",
+        cellular_component="similarity_cc.csv"
+
+
+rule aggregate_similaries:
+    input:
         expand("similarity/{sample_comb}.csv",
                sample_comb=[f"{sorted(c)[0]}-vs-{sorted(c)[1]}" for c in itertools.combinations(SAMPLES, 2)])
     output:
@@ -26,7 +33,6 @@ rule all:
         for namespace, df_agg in df_dict.items():
             f_out = output[namespace]
             df_agg.to_csv(f_out)
-
 
 
 rule calc_pairwise_sample_similarity:
