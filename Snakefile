@@ -64,5 +64,6 @@ rule calc_pairwise_sample_similarity:
         "go-per-sample/go_terms_{sample_b}.csv"
     output:
         "similarity/{sample_a}-vs-{sample_b}.csv"
+    log: "similarity/{sample_a}-vs-{sample_b}.log"
     shell:
-        "megago {input} > {output}"
+        "megago --log {log} {input} > {output}"
