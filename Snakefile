@@ -27,7 +27,7 @@ rule visualization:
         index_sorted = sorted(df_dict["molecular_function"].index, key=lambda s: s[-2]+s[:3])
         width = 6
         for i, (namespace, df) in enumerate(df_dict.items()):
-            cluster_grid = sns.clustermap(df, xticklabels=True, yticklabels=True)
+            cluster_grid = sns.clustermap(df, xticklabels=True, yticklabels=True, method="average")
             cluster_grid.savefig(output[namespace])
 
 rule aggregate_similaries:
