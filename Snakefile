@@ -1,7 +1,6 @@
 import itertools
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
@@ -28,16 +27,13 @@ rule visualization:
         index_sorted = sorted(df_dict["molecular_function"].index, key=lambda s: s[-2]+s[:3])
         width = 6
         for i, (namespace, df) in enumerate(df_dict.items()):
-            f, ax = plt.subplots(nrows=1, figsize=(width, width))
-            df_sorted = df.loc[index_sorted, index_sorted]
-            ax = sns.heatmap(df_sorted, xticklabels=True, yticklabels=True, ax=ax)
-            ax.set_title(namespace)
-            f.savefig(output[namespace])
+            cluster_grid = sns.clustermap(df, xticklabels=True, yticklabels=True)
+            cluster_grid.savefig(output[namespace])
 
 rule aggregate_similaries:
     input:
         expand("similarity/{sample_comb}.csv",
-               sample_comb=[f"{sorted(c)[0]}-vs-{sorted(c)[1]}" for c in itertools.combinations(SAMPLES, 2)])
+               sample_comb=[f"{sorted(c)[0]}-vs-{sorted(c)[1]}" for c in itertools.combinations_with_replacement(SAMPLES, 2)])
     output:
         molecular_function="aggregated_sim/similarity_mf.csv",
         biological_process="aggregated_sim/similarity_bp.csv",
