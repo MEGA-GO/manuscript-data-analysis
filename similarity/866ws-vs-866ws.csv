@@ -1,4 +1,4 @@
 DOMAIN,SIMILARITY
-biological_process,0.9848185130853245
-cellular_component,0.9808820534403401
-molecular_function,0.9931964028848895
+biological_process,0.999871342571433
+cellular_component,1.0
+molecular_function,1.0

@@ -10,4 +10,4 @@ dependencies:
   - seaborn
   - snakemake
   - pip:
-    - megago==0.2.1
+     - https://github.com/MEGA-GO/MegaGO/archive/add_lin_metric.zip
