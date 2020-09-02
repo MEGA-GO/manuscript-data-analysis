@@ -80,7 +80,7 @@ rule visualization:
     run:
         l_dfs = []
         for f in input:
-            size = re.match(r"aggregated_sim/n(\d+)-r\d+\.csv" ,f).group(1)
+            size = int(re.match(r"aggregated_sim/n(\d+)-r\d+\.csv" ,f).group(1))
             df_i = pd.read_csv(f)
             df_i.rename(columns={df_i.columns[0]: "replicate"}, inplace=True)
             df_i["sample_size"] = size

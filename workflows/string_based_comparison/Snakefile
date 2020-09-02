@@ -7,7 +7,7 @@ import seaborn as sns
 
 import megago.megago as mg
 
-SAMPLES, = glob_wildcards("../go-per-sample/go_terms_{sample}.csv")
+SAMPLES, = glob_wildcards("../megago_comparison/go-per-sample/go_terms_{sample}.csv")
 
 
 rule all:
@@ -57,8 +57,8 @@ rule aggregate_similaries:
 
 rule calc_pairwise_sample_similarity:
     input:
-        "../go-per-sample/go_terms_{sample_a}.csv",
-        "../go-per-sample/go_terms_{sample_b}.csv"
+        "../megago_comparison/go-per-sample/go_terms_{sample_a}.csv",
+        "../megago_comparison/go-per-sample/go_terms_{sample_b}.csv"
     output:
         "similarity/{sample_a}-vs-{sample_b}.csv",
         "similarity/{sample_b}-vs-{sample_a}.csv"
