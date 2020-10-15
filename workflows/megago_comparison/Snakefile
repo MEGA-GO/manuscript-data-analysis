@@ -24,10 +24,11 @@ rule visualization:
         cellular_component="figures/similarity_cc.svg"
     run:
         df_dict = {namespace: pd.read_csv(f, index_col=0) for namespace, f in input.items()}
-        index_sorted = sorted(df_dict["molecular_function"].index, key=lambda s: s[-2]+s[:3])
-        width = 6
+        c_dict = {"ws": "#d95f02", "ns": "#7570b3"}
         for i, (namespace, df) in enumerate(df_dict.items()):
-            cluster_grid = sns.clustermap(df, xticklabels=True, yticklabels=True, method="average")
+            sample_colors = [c_dict[s[-2:]] for s in df.index]
+            cluster_grid = sns.clustermap(df, xticklabels=True, yticklabels=True, method="average", cmap="Greens",
+                                          col_colors=sample_colors, row_colors=sample_colors)
             cluster_grid.savefig(output[namespace])
 
 rule aggregate_similaries:
