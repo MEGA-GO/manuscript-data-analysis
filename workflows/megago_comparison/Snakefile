@@ -28,7 +28,8 @@ rule visualization:
         for i, (namespace, df) in enumerate(df_dict.items()):
             sample_colors = [c_dict[s[-2:]] for s in df.index]
             cluster_grid = sns.clustermap(df, xticklabels=True, yticklabels=True, method="average", cmap="Greens",
-                                          cbar_kws={"label": "MegaGO similarity"})
+                                        cbar_pos=(0.02, 0.925, 0.17, 0.05),
+                                        cbar_kws={"label": "MegaGO similarity", "orientation": "horizontal"})
             _ = [t.set_color("#d95f02") for t in cluster_grid.ax_heatmap.get_xticklabels() if t.get_text().endswith("ws")]
             _ = [t.set_color("#d95f02") for t in cluster_grid.ax_heatmap.get_yticklabels() if t.get_text().endswith("ws")]
             cluster_grid.savefig(output[namespace])
