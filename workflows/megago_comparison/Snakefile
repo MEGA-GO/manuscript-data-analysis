@@ -65,5 +65,7 @@ rule calc_pairwise_sample_similarity:
     output:
         "similarity/{sample_a}-vs-{sample_b}.csv"
     log: "similarity/{sample_a}-vs-{sample_b}.log"
+    benchmark:
+        "similarity/{sample_a}-vs-{sample_b}.benchmark.txt"
     shell:
         "megago --log {log} {input} > {output}"
