@@ -10,4 +10,4 @@ dependencies:
   - seaborn
   - snakemake
   - pip:
-    - megago==0.3.1
+    - megago==0.4.1.2020.5
